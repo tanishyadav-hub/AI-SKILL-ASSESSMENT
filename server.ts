@@ -100,7 +100,7 @@ async function startServer() {
           ],
           aptitude: [
             { text: "If A is B's brother, how are they related?", options: ["Cousins", "Siblings", "Friends", "Enemies"], correctAnswer: 1 },
-            { text: "What comes next: 2, 4, 8, 16, ...", options: ["24", "32", "64", "128"], correctAnswer: 1 },
+            { text: "What comes next: 2, 4, 8, 16, ...", options: ["24", "32", "64", "128"], correctAnswer: 2 },
             { text: "Solve: 15 * 3 - 5", options: ["30", "40", "45", "50"], correctAnswer: 1 },
             { text: "Find the odd one out", options: ["Apple", "Banana", "Carrot", "Orange"], correctAnswer: 2 },
             { text: "If a train travels 60mph for 2 hours, how far does it go?", options: ["60 miles", "90 miles", "120 miles", "150 miles"], correctAnswer: 2 }
