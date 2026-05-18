@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    // Interviews Collection
+    // Since the server-side Firebase Admin SDK is used for all writes,
+    // the client-side rules can be extremely restrictive.
+    // We only allow reading if the client knows the sessionId (document ID).
+    match /interviews/{interviewId} {
+      allow get: if isValidId(interviewId);
+      allow list: if false; // Prevention of scraping
+      
+      allow create, update, delete: if false; // All writes must go through the Node.js API
+    }
+  }
+}

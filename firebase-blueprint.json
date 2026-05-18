@@ -1,0 +1,47 @@
+{
+  "entities": {
+    "Interview": {
+      "title": "Interview",
+      "description": "A conversational mock interview session",
+      "type": "object",
+      "properties": {
+        "studentName": { "type": "string" },
+        "email": { "type": "string" },
+        "domain": { "type": "string" },
+        "resumeContent": { "type": "string" },
+        "status": { "type": "string", "enum": ["ongoing", "completed", "terminated"] },
+        "cheated": { "type": "boolean" },
+        "terminationReason": { "type": "string" },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": { "type": "string", "enum": ["user", "model"] },
+              "content": { "type": "string" },
+              "timestamp": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        "evaluation": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "number" },
+            "strongPoints": { "type": "array", "items": { "type": "string" } },
+            "weakPoints": { "type": "array", "items": { "type": "string" } },
+            "feedback": { "type": "string" },
+            "confidence": { "type": "string" }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["studentName", "email", "domain", "status", "messages", "createdAt"]
+    }
+  },
+  "firestore": {
+    "interviews": {
+      "schema": "Interview",
+      "description": "Collection of mock interview sessions"
+    }
+  }
+}
