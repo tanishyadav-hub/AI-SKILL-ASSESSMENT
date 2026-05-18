@@ -18,9 +18,28 @@ dotenv.config();
 
 const firebaseConfig = JSON.parse(fs.readFileSync("./firebase-applet-config.json", "utf-8"));
 
-const appAdmin = admin.initializeApp({
-  projectId: firebaseConfig.projectId,
-});
+let appAdmin;
+const serviceAccountVar = process.env.FIREBASE_SERVICE_ACCOUNT;
+if (serviceAccountVar) {
+  try {
+    const serviceAccount = JSON.parse(serviceAccountVar);
+    appAdmin = admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      projectId: firebaseConfig.projectId,
+    });
+    console.log("[Firebase] Initialized with Service Account from environment variable.");
+  } catch (err) {
+    console.error("[Firebase] Failed to parse service account env var, falling back to default:", err);
+    appAdmin = admin.initializeApp({
+      projectId: firebaseConfig.projectId,
+    });
+  }
+} else {
+  appAdmin = admin.initializeApp({
+    projectId: firebaseConfig.projectId,
+  });
+  console.log("[Firebase] Initialized using default credentials.");
+}
 
 const firestore = getFirestore(appAdmin, firebaseConfig.firestoreDatabaseId);
 
